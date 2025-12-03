@@ -13,6 +13,7 @@ class start_game_cmd : public command
 {
 public:
         start_game_cmd();
+        start_game_cmd(std::string description);
         void execute() override;
 };
 
@@ -20,6 +21,7 @@ class end_game_cmd : public command
 {
 public:
         end_game_cmd();
+        end_game_cmd(std::string description);
         void execute() override;
 };
 
@@ -27,6 +29,7 @@ class back_cmd : public command
 {
 public:
         back_cmd();
+        back_cmd(std::string description);
         void execute() override;
 };
 
