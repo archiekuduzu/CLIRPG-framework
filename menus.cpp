@@ -38,14 +38,20 @@ void end_game_cmd::execute()
 // endgame
 
 // Investigate Command
-investigate_cmd::investigate_cmd() : command("Investigate Game")
+investigate_cmd::investigate_cmd() : command("Investigate World")
 {
         
+}
+
+investigate_cmd::investigate_cmd(const std::string description) : command("Investigate World", description)
+{
+        description_ = description;
 }
 
 void investigate_cmd::execute()
 {
         std::cout << "You begin to investigate...\n";
+        std::cout << description_ + "\n";
         command::execute();
 }
 
@@ -56,7 +62,7 @@ void investigate_cmd::execute()
 // game menu
 game_menu::game_menu() : menu("Game Menu")
 {
-        this->add(new investigate_cmd());
+        this->add(new investigate_cmd("This is description text"));
         this->add(new back_cmd());
 }
 

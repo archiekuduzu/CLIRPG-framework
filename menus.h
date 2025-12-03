@@ -34,6 +34,7 @@ class investigate_cmd : public command
 {
 public:
         investigate_cmd();
+        investigate_cmd(std::string description);
         void execute() override;
 };
 
