@@ -5,7 +5,7 @@
 #include "menus.h"
 #include "game.h"
 
-application_state game_state = running;
+application_state game_state = restarting;
 std::string player_name;
 std::vector<menu*> menu_stack;
 
@@ -29,16 +29,17 @@ void opening_sequence()
 }
 
 int main()
-{
-    opening_sequence();
-    
+{    
     while (game_state != exiting)
     {
+        // if we are restarting, just clear the menu stack and run the opening sequence.
         if (game_state == restarting)
         {
             menu_stack.clear();
             opening_sequence();
+            game_state = running;
         }
+        
         menu_stack.back()->render_menu();
         std::cout << "Please Input your choice: ";
         std::size_t choice;
