@@ -22,6 +22,11 @@ std::string command::GetName()
 	return name_;
 }
 
+void command::execute(int i)
+{
+	execute();
+}
+
 std::string command::GetDescription()
 {
 	return description_;

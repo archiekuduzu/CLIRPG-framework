@@ -50,6 +50,7 @@ investigate_cmd::investigate_cmd(const std::string description) : command("Inves
 
 void investigate_cmd::execute()
 {
+        for(int i = 0; i < 5; i++) std::cout << "\n";
         std::cout << "You begin to investigate...\n";
         std::cout << description_ + "\n";
         command::execute();

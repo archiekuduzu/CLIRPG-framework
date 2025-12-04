@@ -10,6 +10,7 @@ public:
         command(const std::string command_name, const std::string description_text);
 
         virtual void execute();
+        virtual void execute(int i);
 
         std::string GetName();
         std::string GetDescription();

@@ -11,11 +11,13 @@ void menu::remove(command* item) {
 	command_list_.erase(std::remove(command_list_.begin(), command_list_.end(), item), command_list_.end());
 }
 
-void menu::render_menu() {
+void menu::render_menu() {	
 	std::cout << title_ << "\n";
 	for (std::size_t i = 0; i < command_list_.size(); ++i) {
 		std::cout << (i+1) << ": " << command_list_[i]->GetName() << "\n";
 	}
+	// just print some lines so we get cleaner UI
+	for(int i = 0; i < 5; i++) std::cout << "\n";
 }
 
 std::size_t menu::size()
