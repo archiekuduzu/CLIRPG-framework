@@ -23,15 +23,26 @@ int main()
 
               game->menu_stack.back()->render_menu();
               std::cout << "Please input choice: ";
-              int input;
-              std::cin >> input;
-              input--; // decrement because zero indexed
-              std::cout << "\n";
-              if (game->menu_stack.size() >= input)
+              std::string input_string = " ";
+              while (is_not_a_number(input_string))
               {
-                     game->menu_stack.back()->get_commands().at(input)->execute();
+                     std::cin >> input_string;
+                     if (is_number(input_string))
+                     {
+                            int input = std::stoi(input_string); // decrement because zero indexed
+                            input--;
+                            std::cout << "\n";
+                            if (game->menu_stack.size() >= input)
+                            {
+                                   game->menu_stack.back()->get_commands().at(input)->execute();
+                            }
+                            else std::cout << "Invalid input!\n";
+                     }
+                     else
+                     {
+                            std::cout << "Bad input! Try again!\n";
+                     }
               }
-              else std::cout << "Invalid input!\n";
        }
 
        delete game;

@@ -73,7 +73,13 @@ public:
 
                         for (auto& p : game->party)
                         {
-                                std::cout << p->get_character_name() + " " + getCharacterClassName(p->get_character_class()) + "\n";
+                                std::cout << "--------------------------------------------------------------------------------\n";
+                                std::cout << "Name: " + p->get_character_name() + " Class: " + getCharacterClassName(p->get_character_class()) + "\n";
+                                std::cout << "Health: " + std::to_string(p->get_attributes().health) +
+                                        " Armor: " + std::to_string(p->get_attributes().armor) +
+                                                " Damage: " + std::to_string(p->get_attributes().damage) +
+                                                        " Ability Points: " + std::to_string(p->get_attributes().ability_points) + "\n";
+                                std::cout << "--------------------------------------------------------------------------------\n";
                         }
                 });
         }
