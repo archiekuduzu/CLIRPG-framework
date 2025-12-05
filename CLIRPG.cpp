@@ -25,8 +25,13 @@ int main()
               std::cout << "Please input choice: ";
               int input;
               std::cin >> input;
-
-              game->menu_stack.back()->get_commands().at(input-1)->execute();
+              input--; // decrement because zero indexed
+              std::cout << "\n";
+              if (game->menu_stack.size() >= input)
+              {
+                     game->menu_stack.back()->get_commands().at(input)->execute();
+              }
+              else std::cout << "Invalid input!\n";
        }
 
        delete game;

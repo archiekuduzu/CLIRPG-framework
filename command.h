@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <functional>
-#include <iostream>
 
 
 class command

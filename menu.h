@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <iostream>
 #include <vector>
 #include <string>
 #include "command.h"
@@ -20,13 +21,13 @@ public:
 
         void render_menu()
         {
-                std::cout << title_ << std::endl;
-                std::cout << "-----------------------------" << std::endl;
+                std::cout << "\n" << title_ << "\n";
+                std::cout << "-----------------------------" << "\n";
                 for(size_t i = 0; i < command_stack.size(); ++i)
                 {
-                        std::cout << i+1 << ". " << command_stack[i]->get_name() << std::endl;
+                        std::cout << i+1 << ". " << command_stack[i]->get_name() << "\n";
                 }
-                std::cout << "-----------------------------" << std::endl;
+                std::cout << "-----------------------------" << "\n\n";
         }
 
         std::vector<command*> get_commands()
