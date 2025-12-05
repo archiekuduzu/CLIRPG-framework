@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <string>
 #include <vector>
+
+#include "character.h"
 #include "menu.h"
 
 enum application_state
@@ -16,6 +18,7 @@ public:
         application_state app_state = restarting;
         std::string player_name;
         std::vector<menu*> menu_stack;
+        std::vector<character*> party;
 
         game_state();
         ~game_state();

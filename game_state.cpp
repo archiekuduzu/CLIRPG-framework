@@ -16,5 +16,11 @@ game_state::~game_state()
           delete m;
           m = nullptr;
      }
+
+     for (auto& c : party)
+     {
+          delete c;
+          c = nullptr;
+     }
      menu_stack.clear();
 }

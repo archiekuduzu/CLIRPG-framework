@@ -1,4 +1,5 @@
-﻿#include "command.h"
+﻿#pragma once 
+#include "command.h"
 #include "game_state.h"
 #include "menu.h"
 
@@ -14,10 +15,16 @@ public:
                         std::cout << "Starting game...\n";
                         game->app_state = running;
 
-                        std::cout << "\n Please enter your name: ";
+                        std::cout << "\nPlease enter your name: ";
                         std::cin >> game->player_name;
 
+                        std::cout << "\nEnter character name: ";
+                        game->party.push_back(new character());
+                        std::string input;
+                        std::cin >> input;
+                        game->party.back()->set_character_name(input);
                         game->menu_stack.push_back(CreateGameMenu(game));
+                        game->menu_stack.push_back(ClassSelectMenu(game, game->party.at(0)));
                 });
         }
 
@@ -63,9 +70,42 @@ public:
                 return new command("Show Party Menu", [game]()
                 {
                         std::cout << "Showing party menu...\n";
-                        // implementation of showing party menu goes here
+
+                        for (auto& p : game->party)
+                        {
+                                std::cout << p->get_character_name() + " " + getCharacterClassName(p->get_character_class()) + "\n";
+                        }
                 });
         }
+
+        // party menus
+        static command* SelectClassFighterCommand(game_state* game, character* character_)
+        {
+                return new command("Select Fighter", [game, character_]()
+                {
+                        character_->set_character_class(Fighter);
+                        game->menu_stack.pop_back();
+                });
+        }
+
+        static command* SelectClassRangerCommand(game_state* game, character* character_)
+        {
+                return new command("Select Ranger", [game, character_]()
+                {
+                        character_->set_character_class(Ranger);
+                        game->menu_stack.pop_back();
+                });
+        }
+
+        static command* SelectClassWizardCommand(game_state* game, character* character_)
+        {
+                return new command("Select Wizard", [game, character_]()
+                {
+                        character_->set_character_class(Wizard);
+                        game->menu_stack.pop_back();
+                });
+        }
+        
         // Game Menu Commands ---------------------
         // ------------------ COMMANDS -----------------
 
@@ -87,6 +127,15 @@ public:
                 game_menu->add(RestartGameCommand(game));
                 // add more commands if needed
                 return game_menu;
+        }
+
+        static menu* ClassSelectMenu(game_state* game, character* character_)
+        {
+                menu* class_select_menu = new menu("Class Selection Menu");
+                class_select_menu->add(SelectClassFighterCommand(game, character_));
+                class_select_menu->add(SelectClassRangerCommand(game, character_));
+                class_select_menu->add(SelectClassWizardCommand(game, character_));
+                return class_select_menu;
         }
         // ------------------ MENUS --------------------
 };
