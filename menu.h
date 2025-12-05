@@ -33,7 +33,7 @@ public:
         std::vector<command*> get_commands()
         {
                 return command_stack;
-        };
+        }
 
 private:
         std::string title_;

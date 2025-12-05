@@ -127,10 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="character.cpp" />
     <ClCompile Include="CLIRPG.cpp" />
     <ClCompile Include="game_state.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="character.h" />
     <ClInclude Include="command.h" />
     <ClInclude Include="factory.h" />
     <ClInclude Include="game_state.h" />
