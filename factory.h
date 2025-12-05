@@ -29,6 +29,23 @@ public:
                         game->app_state = exiting;
                 });
         }
+
+        static command* RestartGameCommand(game_state* game)
+        {
+                return new command("Restart Game", [game]
+                {
+                        char input;
+                        std::cout << "Do you want to restart?\n";
+                        std::cin >> input;
+                        if (input == 'y' || input == 'Y')
+                        {
+                                std::cout << "Restarting game...\n";
+                                game->app_state = restarting;
+                        }
+                });
+        }
+
+        
         // Main Menu Commands ---------------------
 
         // Game Menu Commands ---------------------
@@ -67,6 +84,7 @@ public:
                 menu* game_menu = new menu("Game Menu");
                 game_menu->add(InvestigateAreaCommand(game));
                 game_menu->add(ShowPartyMenuCommand(game));
+                game_menu->add(RestartGameCommand(game));
                 // add more commands if needed
                 return game_menu;
         }
