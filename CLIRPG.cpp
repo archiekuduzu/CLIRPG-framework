@@ -2,8 +2,10 @@
 
 #include <complex>
 #include <iostream>
-#include "gamestate.h"
+#include "game_state.h"
 #include "command.h"
+#include "menu.h"
+#include "factory.h"
 
 int main()
 {
@@ -17,7 +19,7 @@ int main()
                      game = new game_state();
                      game->app_state = running;
                      std::cout << "Starting Game...\n";
-                     game->menu_stack.push_back(MenuFactory::CreateMainMenu());
+                     game->menu_stack.push_back(MenuFactory::CreateMainMenu(game));
               }
 
               game->menu_stack.back()->render_menu();
