@@ -17,7 +17,6 @@ int main()
               {
                      delete game;
                      game = new game_state();
-                     game->app_state = running;
                      std::cout << "Starting Game...\n";
                      game->menu_stack.push_back(MenuFactory::CreateMainMenu(game));
               }
