@@ -60,8 +60,9 @@ public:
         {
                 return new command("Investigate Area", [game]()
                 {
-                        std::cout << "Investigating area...\n";
-                        // implementation of area investigation goes here
+                        std::string CharacterName = game->party.at(0)->get_character_name();
+                        std::cout << CharacterName + " begins to investigate the area...\n";
+                        std::cout << "Nothing of value was found...\n";
                 });
         }
 
@@ -73,48 +74,32 @@ public:
 
                         for (auto& p : game->party)
                         {
-                                std::cout << "--------------------------------------------------------------------------------\n";
-                                std::cout << "Name: " + p->get_character_name() + " Class: " + getCharacterClassName(p->get_character_class()) + "\n";
-                                std::cout << "Health: " + std::to_string(p->get_attributes().health) +
-                                        " Armor: " + std::to_string(p->get_attributes().armor) +
-                                                " Damage: " + std::to_string(p->get_attributes().damage) +
-                                                        " Ability Points: " + std::to_string(p->get_attributes().ability_points) + "\n";
-                                std::cout << "--------------------------------------------------------------------------------\n";
+                                std::cout << "-------------------- Name: " + p->get_character_name() + " -----------------------\n";
+                                std::cout << "Class: " + getCharacterClassName(p->get_character_class());
+                                std::cout << "\nHealth: " + std::to_string(p->get_attributes().health);
+                                std::cout << "\nArmor: " + std::to_string(p->get_attributes().armor);
+                                std::cout << "\nDamage: " + std::to_string(p->get_attributes().damage);
+                                std::cout << "\nAbility Points: " + std::to_string(p->get_attributes().ability_points);
+                                std::cout << "\n--------------------\n";
                         }
                 });
         }
 
         // party menus
-        static command* SelectClassFighterCommand(game_state* game, character* character_)
+        static command* SelectClassCommand(game_state* game, character* character_, character_class class_)
         {
-                return new command("Select Fighter", [game, character_]()
+                return new command("Select " + getCharacterClassName(class_), [game, character_, class_]()
                 {
-                        character_->set_character_class(Fighter);
-                        game->menu_stack.pop_back();
-                });
-        }
-
-        static command* SelectClassRangerCommand(game_state* game, character* character_)
-        {
-                return new command("Select Ranger", [game, character_]()
-                {
-                        character_->set_character_class(Ranger);
-                        game->menu_stack.pop_back();
-                });
-        }
-
-        static command* SelectClassWizardCommand(game_state* game, character* character_)
-        {
-                return new command("Select Wizard", [game, character_]()
-                {
-                        character_->set_character_class(Wizard);
+                        character_->set_character_class(class_);
                         game->menu_stack.pop_back();
                 });
         }
         
-        // Game Menu Commands ---------------------
+        // Game Menu Commands --------------------------
         // ------------------ COMMANDS -----------------
 
+        // ---------------------------------------------
+        // ---------------------------------------------
         // ------------------ MENUS --------------------
         static menu* CreateMainMenu(game_state* game)
         {
@@ -138,9 +123,10 @@ public:
         static menu* ClassSelectMenu(game_state* game, character* character_)
         {
                 menu* class_select_menu = new menu("Class Selection Menu");
-                class_select_menu->add(SelectClassFighterCommand(game, character_));
-                class_select_menu->add(SelectClassRangerCommand(game, character_));
-                class_select_menu->add(SelectClassWizardCommand(game, character_));
+                for (int i = fighter; i < class_count; i++)
+                {
+                        class_select_menu->add(SelectClassCommand(game, character_, static_cast<character_class>(i)));
+                }
                 return class_select_menu;
         }
         // ------------------ MENUS --------------------

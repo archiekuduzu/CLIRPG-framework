@@ -11,20 +11,23 @@ struct character_attributes
 
 enum character_class
 {
-        Fighter = 0,
-        Ranger = 1,
-        Wizard = 2
+        fighter,
+        ranger,
+        wizard,
+        thief,
+        class_count
 };
 
 inline std::string getCharacterClassName(character_class cc) {
         switch(cc) {
-        case Fighter:
+        case fighter:
                 return "Fighter";
-        case Ranger:
+        case ranger:
                 return "Ranger";
-        case Wizard:
+        case wizard:
                 return "Wizard";
-                // Add your other classes here
+        case thief:
+                return "Thief";
         default:
                 return "Unknown";
         }
@@ -40,6 +43,6 @@ public:
         character_attributes get_attributes() const { return attributes_; }
 private:
         std::string character_name_;
-        character_class class_ = Fighter;
+        character_class class_ = fighter;
         character_attributes attributes_;
 };
