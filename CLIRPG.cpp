@@ -29,6 +29,23 @@ void clear_memory()
     menu_stack.clear();
 }
 
+command* create_party_menu_cmd()
+{
+    return new command("Open Party Menu", [&]
+    {
+        std::cout << "Party Menu";
+    });
+}
+
+void start_game()
+{
+    menu* game_menu = new menu("Game Menu");
+
+    game_menu->add(create_party_menu_cmd());
+
+    menu_stack.push_back(game_menu);
+}
+
 int main()
 {    
     while (game_state != exiting)
@@ -46,6 +63,8 @@ int main()
                 std::cout << "Please input your name: ";
                 std::cin >> player_name;
                 std::cout << "\nWelcome " + player_name + "\n";
+
+                start_game();
             });
             main_menu->add(begin_game_cmd);
             
@@ -67,9 +86,10 @@ int main()
         std::cout << "Input: ";
         int i;
         std::cin >> i;
+        i--; // deincrement because zero indexed vectors
         std::cout << "\n";
 
-        menu_stack.back()->get_command_stack().at(i-1)->execute();
+        menu_stack.back()->get_command_stack().at(i)->execute();
     }
 
     clear_memory();
