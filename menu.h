@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <vector>
 #include <string>
-
 #include "command.h"
 
 class menu
@@ -30,7 +29,7 @@ public:
                 std::cout << "-----------------------------" << std::endl;
         }
 
-        std::vector<command*> get_command_stack()
+        std::vector<command*> get_commands()
         {
                 return command_stack;
         };
@@ -38,4 +37,19 @@ public:
 private:
         std::string title_;
         std::vector<command*> command_stack;
+};
+
+class MenuFactory
+{
+public:
+        static menu* CreateMainMenu()
+        {
+                menu* main_menu = new menu("Main Menu");
+                main_menu->add(CommandFactory::StartCommand());
+                main_menu->add(CommandFactory::EndCommand());
+                // add more commands if needed
+                return main_menu;
+        }
+    
+        // create more static functions to initialize other types of menus if needed
 };

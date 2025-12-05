@@ -128,10 +128,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CLIRPG.cpp" />
+    <ClCompile Include="gamestate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="command.h" />
-    <ClInclude Include="game.h" />
+    <ClInclude Include="gamestate.h" />
     <ClInclude Include="menu.h" />
   </ItemGroup>
   <ItemGroup>

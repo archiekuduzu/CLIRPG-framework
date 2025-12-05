@@ -2,8 +2,6 @@
 #include <functional>
 #include <iostream>
 
-#include "game.h"
-
 class command
 {
 public:
@@ -30,15 +28,13 @@ protected:
 class CommandFactory
 {
 public:
-        static command CreateStartCommand()
+        static command* StartCommand()
         {
-                return command("Start Game", [](){std::cout << "Starting game...\n";});
+                return new command("Start Game", [](){std::cout << "Starting game...\n";});
         }
 
-        static command CreateEndCommand()
+        static command* EndCommand()
         {
-                return command("End Game", [](){std::cout << "Ending game...\n";});
+                return new command("End Game", [](){std::cout << "Ending game...\n";});
         }
-
-        //... other commands
 };
