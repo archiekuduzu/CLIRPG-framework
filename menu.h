@@ -1,23 +1,41 @@
-#pragma once
-
-#include <iostream>
-#include "string"
+﻿#pragma once
 #include <vector>
+#include <string>
+
 #include "command.h"
 
 class menu
 {
 public:
-	menu(std::string menu_title);
+        menu(const std::string& title) : title_(title) {}
 
-	void add(command *item);
-	void remove(command *item);
+        void add(command* cmd) 
+        {
+                command_stack.push_back(cmd);
+        }
 
-	void render_menu();
-	std::size_t size();
-	command* get_command_by_index_(std::size_t i);
-protected:
-	std::string title_;
+        std::string get_title()
+        {
+                return title_;
+        }
 
-	std::vector<command*> command_list_;
+        void render_menu()
+        {
+                std::cout << title_ << std::endl;
+                std::cout << "-----------------------------" << std::endl;
+                for(size_t i = 0; i < command_stack.size(); ++i)
+                {
+                        std::cout << i+1 << ". " << command_stack[i]->get_name() << std::endl;
+                }
+                std::cout << "-----------------------------" << std::endl;
+        }
+
+        std::vector<command*> get_command_stack()
+        {
+                return command_stack;
+        };
+
+private:
+        std::string title_;
+        std::vector<command*> command_stack;
 };

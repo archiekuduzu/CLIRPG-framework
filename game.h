@@ -1,5 +1,7 @@
 ﻿#pragma once
-#include "menus.h"
+#include <vector>
+
+#include "menu.h"
 
 /// game.h
 /// this file is where we define global enums and variables for use across the entire application

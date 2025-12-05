@@ -1,20 +1,44 @@
-#pragma once
+﻿#pragma once
+#include <functional>
 #include <iostream>
-#include "string"
+
+#include "game.h"
 
 class command
 {
 public:
-        virtual ~command() = default;
-        command(const std::string command_name);
-        command(const std::string command_name, const std::string description_text);
+        command(const std::string& n, std::function<void()> f) : name_(n), func(f) {}
 
-        virtual void execute();
-        virtual void execute(int i);
+        //...
 
-        std::string GetName();
-        std::string GetDescription();
+        void execute() 
+        { 
+                func(); 
+        }
+
+        std::string get_name()
+        {
+                return name_;
+        }
+
 protected:
         std::string name_;
-        std::string description_;
+        std::function<void()> func;
+        //...
+};
+
+class CommandFactory
+{
+public:
+        static command CreateStartCommand()
+        {
+                return command("Start Game", [](){std::cout << "Starting game...\n";});
+        }
+
+        static command CreateEndCommand()
+        {
+                return command("End Game", [](){std::cout << "Ending game...\n";});
+        }
+
+        //... other commands
 };

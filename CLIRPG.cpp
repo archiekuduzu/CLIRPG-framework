@@ -2,30 +2,31 @@
 //
 
 #include <iostream>
-#include "menus.h"
 #include "game.h"
+#include "command.h"
 
 application_state game_state = restarting;
 std::string player_name;
 std::vector<menu*> menu_stack;
 
-menu *create_main_menu()
+void clear_memory()
 {
-    menu *main_menu = new class main_menu();
+    for(auto& m : menu_stack)
+    {
+        // Assuming each menu has a `get_commands` or similar method to access the commands
+        for(auto& cmd : m->get_command_stack())
+        {
+            delete cmd;
+            cmd = nullptr; // Optional: robustness against double deletion
+        }
+       
+        // Once all commands of a menu have been dealt with, we can delete the menu itself
+        delete m;
+        m = nullptr; // Optional: robustness against double deletion
+    }
 
-    return main_menu;
-}
-
-// this is the opening sequence of the game where we set the global playername variable.
-void opening_sequence()
-{
-    std::cout << "CLIRPG\n";
-    std::cout << "Text based RPG adventure\n";
-    std::cout << "Please enter your name: ";
-    std::cin >> player_name;
-    std::cout << "Welcome " + player_name + "!\n";
-    menu_stack.push_back(create_main_menu()); 
-    return;
+    // Clear the menu_stack vector
+    menu_stack.clear();
 }
 
 int main()
@@ -35,22 +36,44 @@ int main()
         // if we are restarting, just clear the menu stack and run the opening sequence.
         if (game_state == restarting)
         {
-            menu_stack.clear();
-            opening_sequence();
-            game_state = running;
-        }
-        
-        menu_stack.back()->render_menu();
-        std::cout << "Please Input your choice: ";
-        std::size_t choice;
-        std::cin >> choice;
-        choice--;
+            menu* main_menu = new menu("Main Menu");
+            command* begin_game_cmd = new command("Begin Game",[&]
+            {
+                std::cout << "Beginning game...\n";
 
-        if (choice > menu_stack.back()->size())
-            return 0;
-        else
-            menu_stack.back()->get_command_by_index_(choice)->execute();
+                game_state = running;
+
+                std::cout << "Please input your name: ";
+                std::cin >> player_name;
+                std::cout << "\nWelcome " + player_name + "\n";
+            });
+            main_menu->add(begin_game_cmd);
+            
+            command* end_game_cmd = new command("End Game", [&]()
+            { 
+                std::cout << "Ending game...\n";
+                
+                // Fix 3: Capture game_state by reference 
+                game_state = exiting; 
+            });
+            main_menu->add(end_game_cmd);
+            
+            menu_stack.push_back(main_menu);
+
+            
+        }
+        menu_stack.back()->render_menu();
+
+        std::cout << "Input: ";
+        int i;
+        std::cin >> i;
+        std::cout << "\n";
+
+        menu_stack.back()->get_command_stack().at(i-1)->execute();
     }
+
+    clear_memory();
     
+    std::cout << "Exit";
     return 0;
 }
